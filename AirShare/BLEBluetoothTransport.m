@@ -61,7 +61,7 @@
 - (BOOL) sendData:(NSData*)data
     toIdentifiers:(NSArray*)identifiers
          withMode:(BLETransportSendDataMode)mode
-            error:(NSError**)error {
+            error:(__autoreleasing NSError**)error {
     [identifiers enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop) {
         BOOL seenOnCentral = [self.central hasSeenIdentifier:identifier];
         BOOL seenOnPeripheral = [self.peripheral hasSeenIdentifier:identifier];

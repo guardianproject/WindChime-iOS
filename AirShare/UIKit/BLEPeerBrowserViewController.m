@@ -86,7 +86,7 @@
 }
 
 - (void) setupBroadcastButton {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Broadcast" style:UIBarButtonItemStyleBordered target:self action:@selector(broadcastButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Broadcast" style:UIBarButtonItemStylePlain target:self action:@selector(broadcastButtonPressed:)];
 }
 
 - (void) broadcastButtonPressed:(id)sender {
@@ -172,7 +172,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BLEPeerTableViewCell *peerCell = [tableView dequeueReusableCellWithIdentifier:[BLEPeerTableViewCell cellIdentifier] forIndexPath:indexPath];
-    BLEPeer *peer = [self.peers objectAtIndex:indexPath.row];
+    BLERemotePeer *peer = [self.peers objectAtIndex:indexPath.row];
     [peerCell setPeer:peer];
     return peerCell;
 }

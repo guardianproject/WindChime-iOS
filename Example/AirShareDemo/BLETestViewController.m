@@ -38,18 +38,11 @@ static NSString * const kCachedLocalPeerKey = @"kCachedLocalPeerKey";
         localPeer = [NSKeyedUnarchiver unarchiveObjectWithData:localPeerData];
         NSParameterAssert(localPeer != nil);
     }
-    localPeer.alias = @"iPhone";
+    localPeer.alias = UIDevice.currentDevice.name;
     self.sessionManager = [[BLESessionManager alloc] initWithLocalPeer:localPeer delegate:nil];
     
     UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
-    
-    
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

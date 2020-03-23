@@ -1,12 +1,14 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+platform :ios, '8.0'
+
 use_frameworks!
 
-target 'AirShareTests', :exclusive => true do
+target 'AirShareTests' do
   pod "AirShare/UIKit", :path => "../"
 end
 
-target 'AirShareDemo', :exclusive => true do
+target 'AirShareDemo' do
   pod 'PureLayout'
   pod "AirShare/UIKit", :path => "../"
 end

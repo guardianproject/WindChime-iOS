@@ -15,7 +15,6 @@
 @property (nonatomic, strong, readonly) CBMutableService *dataService;
 @property (nonatomic, strong, readonly) CBMutableCharacteristic *dataCharacteristic;
 @property (nonatomic, strong, readonly) NSMutableDictionary *subscribedCentrals;
-@property (nonatomic, readonly) dispatch_queue_t eventQueue;
 
 @end
 
@@ -113,8 +112,8 @@
 
 - (void) peripheralManager:(CBPeripheralManager *)peripheral willRestoreState:(NSDictionary *)dict {
     NSLog(@"peripheralManager:willRestoreState: %@", dict);
-    NSArray *restoredServices = dict[CBPeripheralManagerRestoredStateServicesKey];
-    NSDictionary *restoredAdvertisementDict = dict[CBPeripheralManagerRestoredStateAdvertisementDataKey];
+//    NSArray *restoredServices = dict[CBPeripheralManagerRestoredStateServicesKey];
+//    NSDictionary *restoredAdvertisementDict = dict[CBPeripheralManagerRestoredStateAdvertisementDataKey];
 }
 
 

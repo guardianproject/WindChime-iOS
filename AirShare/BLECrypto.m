@@ -7,7 +7,7 @@
 //
 
 #import "BLECrypto.h"
-#import <sodium.h>
+#import "sodium.h"
 
 static void initializeLibsodium() {
     static dispatch_once_t onceToken;

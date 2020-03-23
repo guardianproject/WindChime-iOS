@@ -50,10 +50,12 @@
 
 - (void) sendQueuedDataForConnectedPeripheral:(CBPeripheral*)peripheral {
     NSData *data = [self.dataQueue peekDataForIdentifier:peripheral.identifier.UUIDString];
-    if (!data) {
+    CBCharacteristic *characteristic = [self dataCharacteristicForPeripheral:peripheral];
+
+    if (!data || !characteristic) {
         return;
     }
-    CBCharacteristic *characteristic = [self dataCharacteristicForPeripheral:peripheral];
+
     [peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
     NSLog(@"Writing %d bytes to peripheral: %@", (int)data.length, peripheral);
 
@@ -82,9 +84,12 @@
 
 - (void) setupCentral {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
+
     if (self.supportsBackground) {
+        options[CBCentralManagerOptionRestoreIdentifierKey] = @"AirShareCentralManager";
         [options setObject:self.serviceUUID.UUIDString forKey:CBPeripheralManagerOptionRestoreIdentifierKey];
     }
+
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self
                                                            queue:self.eventQueue
                                                          options:options];
