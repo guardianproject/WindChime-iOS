@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'libsodium'
   s.dependency 'CocoaLumberjack', '~> 1.9'
-  s.dependency 'PureLayout', '~> 2.0'
+  s.dependency 'PureLayout', '~> 3.1'
   s.frameworks = 'CoreBluetooth'
 
   s.subspec 'AirShare' do |ss|

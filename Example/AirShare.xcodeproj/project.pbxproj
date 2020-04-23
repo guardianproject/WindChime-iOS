@@ -42,7 +42,7 @@
 		94F0A03DCBB34C068DAD8FCC /* Pods_AirShareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AirShareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96180F671FE459D357D7B3E8 /* Pods-AirShareTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirShareTests.debug.xcconfig"; path = "Target Support Files/Pods-AirShareTests/Pods-AirShareTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A07A2BE12428F78F008B9546 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
-		A07A2BE22428F78F008B9546 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		A07A2BE22428F78F008B9546 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C8240088979CCA2033A1C9CB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D9111DB51A71B9C1004AFD08 /* AirShareDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirShareDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9111E211A71BDA4004AFD08 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };

@@ -22,9 +22,9 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Receive messages while app is in the background.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Receive messages while app is in the background.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Receive messages while app is in the background.</string>
 	<key>UIBackgroundModes</key>
 	<array>
