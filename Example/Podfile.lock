@@ -1,20 +1,18 @@
 PODS:
   - AirShare/AirShare (0.1.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 3.6)
     - libsodium
     - PureLayout (~> 3.1)
   - AirShare/UIKit (0.1.0):
     - AirShare/AirShare
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 3.6)
     - libsodium
     - PureLayout (~> 3.1)
-  - CocoaLumberjack (1.9.2):
-    - CocoaLumberjack/Extensions (= 1.9.2)
-  - CocoaLumberjack/Core (1.9.2)
-  - CocoaLumberjack/Extensions (1.9.2):
-    - CocoaLumberjack/Core
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
   - libsodium (1.0.12)
-  - PureLayout (3.1.5)
+  - PureLayout (3.1.6)
 
 DEPENDENCIES:
   - AirShare/UIKit (from `../`)
@@ -31,10 +29,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AirShare: 18d9178bbfd4a080cdfa7e10c42ea7a981086e07
-  CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
+  AirShare: 791397bee68eb4e549adca76b7789dc76301043b
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
   libsodium: 9a8faa5ef2fa0d2d57bd7f7d79bf8fb7c1a9f0ea
-  PureLayout: 9b4ad47b2f0388c84ff534af23d96e720c1b875a
+  PureLayout: bd3c4ec3a3819ad387c99ebb72c6b129c3ed4d2d
 
 PODFILE CHECKSUM: 5cee5a8355c9bfd3f038bdc5f13f3034f8ac5b1b
 
