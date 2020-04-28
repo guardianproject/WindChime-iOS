@@ -40,6 +40,8 @@
 
 - (void) scanForPeers;
 
+- (void) stop;
+
 - (NSArray*) discoveredPeers;
 
 - (void) sendSessionMessage:(BLESessionMessage*)sessionMessage

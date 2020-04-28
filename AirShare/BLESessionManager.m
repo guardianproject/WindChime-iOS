@@ -70,6 +70,12 @@
     }];
 }
 
+- (void) stop {
+    [self.transports enumerateObjectsUsingBlock:^(BLETransport *transport, BOOL *stop) {
+        [transport stop];
+    }];
+}
+
 - (NSArray *)discoveredPeers {
     return [self.identifiersToPeers allValues];
 }
