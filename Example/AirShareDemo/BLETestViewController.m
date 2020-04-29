@@ -39,7 +39,7 @@ static NSString * const kCachedLocalPeerKey = @"kCachedLocalPeerKey";
         NSParameterAssert(localPeer != nil);
     }
     localPeer.alias = UIDevice.currentDevice.name;
-    self.sessionManager = [[BLESessionManager alloc] initWithLocalPeer:localPeer delegate:nil];
+    self.sessionManager = [[BLESessionManager alloc] initWithLocalPeer:localPeer delegate:nil serviceName:@"AirShareDemo" supportsBackground:YES];
     
     UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];

@@ -34,7 +34,10 @@
 @property (nonatomic, strong) dispatch_queue_t delegateQueue;
 @property (nonatomic) BOOL supportsBackground;
 
-- (instancetype) initWithLocalPeer:(BLELocalPeer*)localPeer delegate:(id<BLESessionManagerDelegate>)delegate;
+- (instancetype) initWithLocalPeer:(BLELocalPeer*)localPeer
+                          delegate:(id<BLESessionManagerDelegate>)delegate
+                       serviceName:(NSString*)serviceName
+                supportsBackground:(BOOL)supportsBackground;
 
 - (void) advertiseLocalPeer;
 
