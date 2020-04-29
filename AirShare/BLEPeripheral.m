@@ -57,11 +57,11 @@
     }
     BOOL success = [self.peripheralManager updateValue:data forCharacteristic:self.dataCharacteristic onSubscribedCentrals:@[central]];
     if (success) {
-        NSLog(@"Wrote %d bytes to central: %@", (int)data.length, central);
+        NSLog(@"[AirShare] Wrote %d bytes to central: %@", (int)data.length, central);
         [self.dataQueue popDataForIdentifier:identifier];
         [self writeQueuedDataForCentral:central];
     } else {
-        NSLog(@"Error writing %d bytes to central: %@", (int)data.length, central);
+        NSLog(@"[AirShare] Error writing %d bytes to central: %@", (int)data.length, central);
     }
 }
 
@@ -104,27 +104,27 @@
                                                        CBAdvertisementDataLocalNameKey: @"AirShare"}];
         }
     } else {
-        NSLog(@"peripheral not powered on");
+        NSLog(@"[AirShare] peripheral not powered on");
     }
 }
 
 #pragma mark CBPeripheralManagerDelegate
 
 - (void) peripheralManager:(CBPeripheralManager *)peripheral willRestoreState:(NSDictionary *)dict {
-    NSLog(@"peripheralManager:willRestoreState: %@", dict);
+    NSLog(@"[AirShare] peripheralManager:willRestoreState: %@", dict);
 //    NSArray *restoredServices = dict[CBPeripheralManagerRestoredStateServicesKey];
 //    NSDictionary *restoredAdvertisementDict = dict[CBPeripheralManagerRestoredStateAdvertisementDataKey];
 }
 
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheralManager {
-    NSLog(@"peripheralManagerDidUpdateState: %@", peripheralManager);
+    NSLog(@"[AirShare] peripheralManagerDidUpdateState: %@", peripheralManager);
     [self broadcastPeripheral];
 }
 
 - (void) peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic {
     [self.subscribedCentrals setObject:central forKey:central.identifier.UUIDString];
-    NSLog(@"peripheralManager:didSubscribeToCharacteristic: %@ %@", central, characteristic);
+    NSLog(@"[AirShare] peripheralManager:didSubscribeToCharacteristic: %@ %@", central, characteristic);
     
     dispatch_async(self.delegateQueue, ^{
         [self.delegate device:self identifierUpdated:central.identifier.UUIDString status:BLEConnectionStatusConnected extraInfo:nil];
@@ -133,7 +133,7 @@
 
 - (void) peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic {
     [self.subscribedCentrals removeObjectForKey:central.identifier.UUIDString];
-    NSLog(@"peripheralManager:didUnsubscribeFromCharacteristic: %@ %@", central, characteristic);
+    NSLog(@"[AirShare] peripheralManager:didUnsubscribeFromCharacteristic: %@ %@", central, characteristic);
     
     dispatch_async(self.delegateQueue, ^{
         [self.delegate device:self identifierUpdated:central.identifier.UUIDString status:BLEConnectionStatusDisconnected extraInfo:nil];
@@ -142,25 +142,25 @@
 
 - (void)peripheralManagerIsReadyToUpdateSubscribers:(CBPeripheralManager *)peripheral {
     NSArray *centrals = [self.subscribedCentrals allValues];
-    NSLog(@"peripheralManagerIsReadyToUpdateSubscribers: %@", centrals);
+    NSLog(@"[AirShare] peripheralManagerIsReadyToUpdateSubscribers: %@", centrals);
     [centrals enumerateObjectsUsingBlock:^(CBCentral *central, NSUInteger idx, BOOL *stop) {
         [self writeQueuedDataForCentral:central];
     }];
 }
 
 - (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
-    NSLog(@"peripheralManagerDidStartAdvertising: %@ %@", peripheral, error);
+    NSLog(@"[AirShare] peripheralManagerDidStartAdvertising: %@ %@", peripheral, error);
 }
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
-    NSLog(@"peripheralManager:didAddService: %@ %@", service, error);
+    NSLog(@"[AirShare] peripheralManager:didAddService: %@ %@", service, error);
 }
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray *)requests {
-    NSLog(@"didReceiveWriteRequests: %@", requests);
+    NSLog(@"[AirShare] didReceiveWriteRequests: %@", requests);
     [requests enumerateObjectsUsingBlock:^(CBATTRequest *request, NSUInteger idx, BOOL *stop) {
         NSData *data = request.value;
-        NSLog(@"write (%d bytes) %@", (int)data.length, data);
+        NSLog(@"[AirShare] write (%d bytes) %@", (int)data.length, data);
         NSString *identifier = request.central.identifier.UUIDString;
         dispatch_async(self.delegateQueue, ^{
             [self.delegate device:self dataReceived:data fromIdentifier:identifier];
@@ -171,7 +171,7 @@
 }
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveReadRequest:(CBATTRequest *)request {
-    NSLog(@"didReceiveReadRequest: %@", request);
+    NSLog(@"[AirShare] didReceiveReadRequest: %@", request);
     if (request) {
         [peripheral respondToRequest:request withResult:CBATTErrorSuccess];
     }

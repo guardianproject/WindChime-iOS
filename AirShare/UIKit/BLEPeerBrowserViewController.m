@@ -151,7 +151,7 @@
 }
 
 - (void) sessionManager:(BLESessionManager *)sessionManager receivedMessage:(BLESessionMessage *)message fromPeer:(BLERemotePeer *)peer {
-    NSLog(@"received message from peer: %@ %@", message, peer);
+    NSLog(@"[AirShare] received message from peer: %@ %@", message, peer);
     if ([message isKindOfClass:[BLEDataMessage class]]) {
         dispatch_async(self.delegateQueue, ^{
             BLEDataMessage *dataMessage = (BLEDataMessage*)message;

@@ -94,7 +94,7 @@
 - (void) transport:(BLETransport*)transport
       dataReceived:(NSData*)data
     fromIdentifier:(NSString*)identifier {
-    NSLog(@"dataReceived:fromIdentifier %@: %@", identifier, data);
+    NSLog(@"[AirShare] dataReceived:fromIdentifier %@: %@", identifier, data);
     BLESessionMessageReceiver *receiver = [self.receiverForIdentifier objectForKey:identifier];
     if (!receiver) {
         receiver = [[BLESessionMessageReceiver alloc] initWithDelegate:self];
@@ -108,7 +108,7 @@
           dataSent:(NSData*)data
       toIdentifier:(NSString*)identifier
              error:(NSError*)error {
-    NSLog(@"dataSent:toIdentifier %@: %@ %@", identifier, data, error);
+    NSLog(@"[AirShare] dataSent:toIdentifier %@: %@ %@", identifier, data, error);
 }
 
 - (void) transport:(BLETransport*)transport
@@ -116,7 +116,7 @@
   connectionStatus:(BLEConnectionStatus)connectionStatus
   isIdentifierHost:(BOOL)identifierIsHost
          extraInfo:(NSDictionary*)extraInfo {
-    NSLog(@"identifierUpdated: %@ %d %@", identifier, (int)connectionStatus, extraInfo);
+    NSLog(@"[AirShare] identifierUpdated: %@ %d %@", identifier, (int)connectionStatus, extraInfo);
     BLERemotePeer *peer = [self peerForIdentifier:identifier];
     
     if (connectionStatus == BLEConnectionStatusConnected) {
@@ -154,7 +154,7 @@
 
 - (void) receiver:(BLESessionMessageReceiver*)receiver
    headerComplete:(BLESessionMessage*)message {
-    NSLog(@"headers complete: %@", message.headers);
+    NSLog(@"[AirShare] headers complete: %@", message.headers);
     if ([message isKindOfClass:[BLEDataMessage class]]) {
     } else if ([message isKindOfClass:[BLEIdentityMessage class]]) {
     
@@ -165,7 +165,7 @@
           message:(BLESessionMessage*)message
      incomingData:(NSData*)incomingData
          progress:(float)progress {
-    NSLog(@"progress: %f", progress);
+    NSLog(@"[AirShare] progress: %f", progress);
     if ([message isKindOfClass:[BLEDataMessage class]]) {
     } else if ([message isKindOfClass:[BLEIdentityMessage class]]) {
     }
@@ -173,7 +173,7 @@
 
 - (void) receiver:(BLESessionMessageReceiver*)receiver
  transferComplete:(BLESessionMessage*)message {
-    NSLog(@"transferComplete");
+    NSLog(@"[AirShare] transferComplete");
     NSString *identifier = receiver.context;
     [self.receiverForIdentifier removeObjectForKey:identifier];
     
@@ -194,9 +194,9 @@
             NSError *error = nil;
             NSData *data = identityMessage.serializedData;
             [transport sendData:data toIdentifiers:@[identifier] withMode:BLETransportSendDataReliable error:&error];
-            NSLog(@"peer discovered for identifier: %@ %@", peer, identifier);
+            NSLog(@"[AirShare] peer discovered for identifier: %@ %@", peer, identifier);
         } else {
-            NSLog(@"Got identity from identifier (%@) already identified!", identifier);
+            NSLog(@"[AirShare] Got identity from identifier (%@) already identified!", identifier);
         }
         peer.lastSeenDate = [NSDate date];
         dispatch_async(self.delegateQueue, ^{

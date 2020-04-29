@@ -66,7 +66,7 @@
         BOOL seenOnCentral = [self.central hasSeenIdentifier:identifier];
         BOOL seenOnPeripheral = [self.peripheral hasSeenIdentifier:identifier];
         if (seenOnCentral && seenOnPeripheral) {
-            NSLog(@"seen on both central and peripheral: %@", identifier);
+            NSLog(@"[AirShare] seen on both central and peripheral: %@", identifier);
         }
         if (seenOnPeripheral) {
             [self.peripheral sendData:data toIdentifier:identifier error:error];
@@ -74,7 +74,7 @@
             [self.central sendData:data toIdentifier:identifier error:error];
         } else if (!seenOnCentral && !seenOnPeripheral) {
             //NSAssert(NO, @"OH NO!");
-            NSLog(@"identifier not seen: %@", identifier);
+            NSLog(@"[AirShare] identifier not seen: %@", identifier);
         }
     }];
     return NO;

@@ -63,7 +63,7 @@
         if (headers) {
             self.headers = headers;
         } else if (error) {
-            NSLog(@"Error parsing headers: %@", error);
+            NSLog(@"[AirShare] Error parsing headers: %@", error);
         }
     }
     if (self.headers && !self.sessionMessage) {

@@ -57,7 +57,7 @@
     }
 
     [peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
-    NSLog(@"Writing %d bytes to peripheral: %@", (int)data.length, peripheral);
+    NSLog(@"[AirShare] Writing %d bytes to peripheral: %@", (int)data.length, peripheral);
 
 }
 
@@ -78,7 +78,7 @@
         [self.centralManager scanForPeripheralsWithServices:services
                                                     options:@{CBCentralManagerScanOptionAllowDuplicatesKey: @(allowDuplicates)}];
     } else {
-        NSLog(@"central not powered on");
+        NSLog(@"[AirShare] central not powered on");
     }
 }
 
@@ -98,7 +98,7 @@
 #pragma mark CBCentralManagerDelegate
 
 - (void) centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary *)dict {
-    NSLog(@"centralManager:willRestoreState: %@", dict);
+    NSLog(@"[AirShare] centralManager:willRestoreState: %@", dict);
     NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
     [peripherals enumerateObjectsUsingBlock:^(CBPeripheral *peripheral, NSUInteger idx, BOOL *stop) {
         [self.allDiscoveredPeripherals setObject:peripheral forKey:peripheral.identifier.UUIDString];
@@ -109,7 +109,7 @@
 }
 
 - (void) centralManagerDidUpdateState:(CBCentralManager *)centralManager {
-    NSLog(@"centralManagerDidUpdateState: %@", centralManager);
+    NSLog(@"[AirShare] centralManagerDidUpdateState: %@", centralManager);
     [self scanForPeripherals];
 }
 
@@ -130,7 +130,7 @@
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSLog(@"didDiscoverPeripheral: %@ %@ %@", peripheral, advertisementData, RSSI);
+    NSLog(@"[AirShare] didDiscoverPeripheral: %@ %@ %@", peripheral, advertisementData, RSSI);
     CBPeripheral *previouslySeenPeripheral = [self.allDiscoveredPeripherals objectForKey:peripheral.identifier.UUIDString];
     BLEConnectionStatus status = [self connectionStatusForPeripheral:peripheral];
     dispatch_async(self.delegateQueue, ^{
@@ -147,7 +147,7 @@
 }
 
 - (void) centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    NSLog(@"didConnectPeripheral: %@", peripheral);
+    NSLog(@"[AirShare] didConnectPeripheral: %@", peripheral);
     [peripheral discoverServices:@[self.serviceUUID]];
     dispatch_async(self.delegateQueue, ^{
         [self.delegate device:self identifierUpdated:peripheral.identifier.UUIDString status:BLEConnectionStatusConnecting extraInfo:nil];
@@ -176,7 +176,7 @@
     } else {
         data = [self.dataQueue popDataForIdentifier:identifier];
     }
-    NSLog(@"didWriteValueForCharacteristic %@ %@", data, error);
+    NSLog(@"[AirShare] didWriteValueForCharacteristic %@ %@", data, error);
     dispatch_async(self.delegateQueue, ^{
         [self.delegate device:self dataSent:data toIdentifier:identifier error:error];
     });
@@ -185,7 +185,7 @@
 
 - (void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     if (error) {
-        NSLog(@"didUpdateValueForCharacteristic error %@", error);
+        NSLog(@"[AirShare] didUpdateValueForCharacteristic error %@", error);
         return;
     }
     NSString *identifier = peripheral.identifier.UUIDString;
@@ -193,11 +193,11 @@
     dispatch_async(self.delegateQueue, ^{
         [self.delegate device:self dataReceived:data fromIdentifier:identifier];
     });
-    NSLog(@"didUpdateValueForCharacteristic %@", characteristic.value);
+    NSLog(@"[AirShare] didUpdateValueForCharacteristic %@", characteristic.value);
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    NSLog(@"didUpdateNotificationStateForCharacteristic %@ %@", characteristic, error);
+    NSLog(@"[AirShare] didUpdateNotificationStateForCharacteristic %@ %@", characteristic, error);
     if ([characteristic.UUID isEqual:self.characteristicUUID] && !error) {
         [self.connectedPeripherals setObject:peripheral forKey:peripheral.identifier.UUIDString];
         dispatch_async(self.delegateQueue, ^{
@@ -209,10 +209,10 @@
 
 - (void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     if (error) {
-        NSLog(@"didDiscoverCharacteristicsForService error %@" ,error);
+        NSLog(@"[AirShare] didDiscoverCharacteristicsForService error %@" ,error);
         return;
     } else {
-        NSLog(@"didDiscoverCharacteristicsForService: %@", service.characteristics);
+        NSLog(@"[AirShare] didDiscoverCharacteristicsForService: %@", service.characteristics);
     }
     NSArray *characteristics = service.characteristics;
     NSUInteger characteristicIndex = [characteristics indexOfObjectPassingTest:^BOOL(CBCharacteristic *characteristic, NSUInteger idx, BOOL *stop) {
@@ -223,12 +223,12 @@
         return NO;
     }];
     if (characteristicIndex == NSNotFound) {
-        NSLog(@"Characteristic not found");
+        NSLog(@"[AirShare] Characteristic not found");
         return;
     }
     CBCharacteristic *characteristic = [characteristics objectAtIndex:characteristicIndex];
     if (!characteristic) {
-        NSLog(@"Characteristic not found");
+        NSLog(@"[AirShare] Characteristic not found");
         return;
     }
     [self.peripheralDataCharacteristics setObject:characteristic forKey:peripheral.identifier.UUIDString];
@@ -236,7 +236,7 @@
 }
 
 - (void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
-    NSLog(@"didDiscoverServices: %@", peripheral.services);
+    NSLog(@"[AirShare] didDiscoverServices: %@", peripheral.services);
     if (peripheral.services.count == 0) {
         return;
     }
@@ -248,7 +248,7 @@
         return NO;
     }];
     if (serviceIndex == NSNotFound) {
-        NSLog(@"Data service not found");
+        NSLog(@"[AirShare] Data service not found");
         return;
     }
     CBService *service = [peripheral.services objectAtIndex:serviceIndex];
